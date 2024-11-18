@@ -1,5 +1,6 @@
 import os
 from urllib.parse import urlparse
+import argparse
 
 from dotenv import load_dotenv
 import requests
@@ -49,7 +50,13 @@ def main():
     vk_service_token = os.environ["VK_SERVICE_TOKEN"]
 
     try:
-        url = input("Type your link:\n")
+        parser = argparse.ArgumentParser(
+            description="Скрипт сократит ссылку или покажет количество просмотров уже сокращенной"
+        )
+        parser.add_argument("url", help="Обычная или уже сокращенная ссылка")
+        args = parser.parse_args()
+        url = args.url
+
         if is_shorten_link(vk_service_token, url):
             print("Кликов: ", count_clicks(vk_service_token, url))
         else:
